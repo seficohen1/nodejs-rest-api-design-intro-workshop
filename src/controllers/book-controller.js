@@ -110,7 +110,7 @@ async function getSingleBook(req, res, next) {
   const bookId = req.params.id;
   try {
     const book = await db.Book.findOne({ _id: bookId })
-      .populate({ path: "author", select: { field: 1 } })
+      .populate({ path: "author", select: { firstName: 1, lastName: 1 } })
       .lean()
       .exec();
     res.status(200).send({
@@ -193,7 +193,7 @@ async function deleteBook(req, res, next) {
 
   try {
     const bookToDelete = await db.Book.findOneAndDelete({ _id: bookId }).lean();
-    res.status(200).send({ _id: bookToDelete._id });
+    res.status(200).send({ data: { _id: bookToDelete._id } });
   } catch (error) {
     next(error);
   }
