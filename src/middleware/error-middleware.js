@@ -1,6 +1,7 @@
+const { logger } = require("../config/config");
+
 module.exports = (err, req, res, next) => {
-  console.log("Error Handler Middleware: ");
-  console.error(err);
+  logger.error(err);
 
   if (req.headersSent) {
     // When you add a custom error handler,

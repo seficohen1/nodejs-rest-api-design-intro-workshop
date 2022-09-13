@@ -1,9 +1,17 @@
 const db = require("../models");
 const { logger } = require("../config/config");
 
+/**
+ *
+ * @TODO
+ * Update the controller to the new Firebase Auth
+ */
 async function getUsers(req, res, next) {
   try {
-    const users = await db.User.find({})
+    const users = await db.User.find({
+      firstName: { $ne: null },
+      lastName: { $ne: null },
+    })
       .select({
         firstName: 1,
         lastName: 1,
@@ -20,6 +28,11 @@ async function getUsers(req, res, next) {
   }
 }
 
+/**
+ *
+ * @TODO
+ * Update the controller to the new Firebase Auth
+ */
 async function getUserDetails(req, res, next) {
   const { userId } = req.params;
 
@@ -39,6 +52,11 @@ async function getUserDetails(req, res, next) {
   }
 }
 
+/**
+ *
+ * @TODO
+ * Update the controller to the new Firebase Auth
+ */
 async function createUser(req, res, next) {
   const { firstName, lastName, email, password, speaks } = req.body;
 
@@ -65,6 +83,11 @@ async function createUser(req, res, next) {
   }
 }
 
+/**
+ *
+ * @TODO
+ * Update the controller to the new Firebase Auth
+ */
 async function updateUser(req, res, next) {
   const { userId } = req.params;
   const { firstName, lastName } = req.body;
@@ -96,6 +119,15 @@ async function updateUser(req, res, next) {
   }
 }
 
+/**
+ *
+ * @TODO
+ * Update the controller to the new Firebase Auth
+ *
+ * @TODO
+ *
+ * use admin.auth().deleteUser()
+ */
 async function deleteUser(req, res, next) {
   const { userId } = req.params;
 

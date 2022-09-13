@@ -37,9 +37,25 @@ const { logger } = require("../config/config");
  */
 async function createBook(req, res, next) {
   const { title, author, genre, year, pages } = req.body;
+<<<<<<< HEAD
   try {
     const newBook = await db.Book.create({ title, author, genre, year, pages });
     res.status(201).send({ data: newBook._id });
+=======
+
+  try {
+    const book = await db.Book.create({
+      title: title,
+      author: author,
+      genre: genre,
+      year: year,
+      pages: pages,
+    });
+
+    res.status(201).send({
+      data: book._id,
+    });
+>>>>>>> 046d706cb550a2cdbc63b55b5338fd328a37161c
   } catch (error) {
     next(error);
   }
@@ -64,11 +80,19 @@ async function createBook(req, res, next) {
  */
 async function getBooks(req, res, next) {
   try {
+<<<<<<< HEAD
     const books = await db.Book.find({})
       .select({ _id: 1, title: 1 })
       .lean()
       .exec();
     res.status(200).send({ data: books });
+=======
+    const books = await db.Book.find({}).select({ title: 1 }).lean().exec();
+
+    res.status(200).send({
+      data: books,
+    });
+>>>>>>> 046d706cb550a2cdbc63b55b5338fd328a37161c
   } catch (error) {
     next(error);
   }
@@ -107,6 +131,7 @@ async function getBooks(req, res, next) {
  * And call lean() and exec() on the query
  */
 async function getSingleBook(req, res, next) {
+<<<<<<< HEAD
   const bookId = req.params.id;
   try {
     const book = await db.Book.findOne({ _id: bookId })
@@ -124,6 +149,28 @@ async function getSingleBook(req, res, next) {
           lastName: book.author.lastName,
         },
       },
+=======
+  const { bookId } = req.params;
+
+  try {
+    const book = await db.Book.findOne({ _id: bookId })
+      .select({
+        title: 1,
+        pages: 1,
+      })
+      .populate({
+        path: "author",
+        select: {
+          firstName: 1,
+          lastName: 1,
+        },
+      })
+      .lean()
+      .exec();
+
+    res.status(200).send({
+      data: book,
+>>>>>>> 046d706cb550a2cdbc63b55b5338fd328a37161c
     });
   } catch (error) {
     next(error);
